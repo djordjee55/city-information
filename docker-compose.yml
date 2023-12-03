@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  city-info-app:
+    build: .
+    image: city-info-app
+    container_name: city-info-application
+    volumes:
+      - city_app_data:/root/.m2
+    ports:
+      - "8080:8080"
+    depends_on:
+      city-info-db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://city-info-database:5432/city-information
+
+  city-info-db:
+    image: postgres:16.1-alpine
+    container_name: city-info-database
+    volumes:
+      - city_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: city-information
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "4321:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 3s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  city_app_data:
+    driver: local
+  city_db_data:
+    driver: local
