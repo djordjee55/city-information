@@ -1,8 +1,9 @@
 CREATE TABLE t_city
 (
     id                      SERIAL          PRIMARY KEY,
-    name                    VARCHAR,
-    country                 VARCHAR,
+    name                    VARCHAR         NOT NULL,
+    country                 VARCHAR         NOT NULL,
     state_or_region         VARCHAR,
-    population              VARCHAR
+    population              BIGINT          NOT NULL,
+    UNIQUE(name, country)
 )
