@@ -16,4 +16,6 @@ public class City {
     private String stateOrRegion;
 
     private Integer population;
+
+    private String currentTempC;
 }

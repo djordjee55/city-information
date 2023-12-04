@@ -4,6 +4,7 @@ import com.cityinformation.api.city.model.City;
 import com.cityinformation.api.city.model.CityEntity;
 import com.cityinformation.general.exceptions.CityAlreadyExistsException;
 import com.cityinformation.general.exceptions.CityNotFoundException;
+import com.cityinformation.integrations.weatherapi.WeatherApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CityService {
 
+    private final WeatherApiService weatherApiService;
     private final CityRepository cityRepository;
 
     public List<City> getAllCities() {
-        return cityRepository.findAll().stream().map(CityMapper::fromEntity).collect(Collectors.toList());
+        return cityRepository.findAll().stream()
+                .map(city -> CityMapper.fromEntityWithTemperature(city, getCityCurrentTemperature(city)))
+                .collect(Collectors.toList());
     }
 
     public City getCityById(Integer id) {
-        return CityMapper.fromEntity(findCityById(id));
+
+        CityEntity cityEntity = findCityById(id);
+
+        return CityMapper.fromEntityWithTemperature(cityEntity, getCityCurrentTemperature(cityEntity));
     }
 
     public void createCity(City city) {
@@ -59,5 +66,9 @@ public class CityService {
         if (cityRepository.existsByNameAndCountry(name, country)) {
             throw new CityAlreadyExistsException(name, country);
         }
+    }
+
+    private String getCityCurrentTemperature(CityEntity city) {
+        return weatherApiService.getCityTemperature(city.getName());
     }
 }

@@ -30,13 +30,14 @@ public final class CityMapper {
                 .build();
     }
 
-    public static City fromEntity(CityEntity cityEntity) {
+    public static City fromEntityWithTemperature(CityEntity cityEntity, String temperature) {
         return City.builder()
                 .id(cityEntity.getId())
                 .name(cityEntity.getName())
                 .country(cityEntity.getCountry())
                 .stateOrRegion(cityEntity.getStateOrRegion())
                 .population(cityEntity.getPopulation())
+                .currentTempC(temperature)
                 .build();
     }
 
@@ -52,6 +53,6 @@ public final class CityMapper {
 
     public static CityResponse toResponse(City city) {
         return new CityResponse(city.getId(), city.getName(), city.getCountry(),
-                city.getStateOrRegion(), city.getPopulation());
+                city.getStateOrRegion(), city.getPopulation(), city.getCurrentTempC());
     }
 }

@@ -4,6 +4,7 @@ import com.cityinformation.api.city.model.City;
 import com.cityinformation.api.city.model.CityEntity;
 import com.cityinformation.general.exceptions.CityAlreadyExistsException;
 import com.cityinformation.general.exceptions.CityNotFoundException;
+import com.cityinformation.integrations.weatherapi.WeatherApiService;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,37 +28,44 @@ public class CityServiceTest {
     @Mock
     CityRepository cityRepository;
 
+    @Mock
+    WeatherApiService weatherApiService;
+
     @InjectMocks
     CityService cityService;
 
     @Test
-    void getAllCities_returnListOfCities() {
+    void getAllCities_thenReturnListOfCities() {
 
         List<CityEntity> cityEntityList = List.of(CityEntity.builder().build());
         when(cityRepository.findAll()).thenReturn(cityEntityList);
+        when(weatherApiService.getCityTemperature(any())).thenReturn(faker.number().digit());
 
         List<City> response = cityService.getAllCities();
 
         verify(cityRepository).findAll();
+        verify(weatherApiService, times(cityEntityList.size())).getCityTemperature(any());
         assertEquals(cityEntityList.size(), response.size());
     }
 
     @Test
-    void getCityById_whenCityWithProvidedIdExists_returnCity() {
+    void getCityById_whenCityWithProvidedIdExists_thenReturnCity() {
 
         CityEntity cityEntity = CityEntity.builder()
                 .name(faker.name().name())
                 .build();
         when(cityRepository.findById(any())).thenReturn(Optional.of(cityEntity));
+        when(weatherApiService.getCityTemperature(any())).thenReturn(faker.number().digit());
 
         City city = cityService.getCityById(faker.number().randomDigit());
 
         verify(cityRepository).findById(any());
+        verify(weatherApiService).getCityTemperature(any());
         assertEquals(cityEntity.getName(), city.getName());
     }
 
     @Test
-    void getCityById_whenCityWithProvidedIdDoesNotExists_throwCityNotFoundException() {
+    void getCityById_whenCityWithProvidedIdDoesNotExists_thenThrowCityNotFoundException() {
 
         when(cityRepository.findById(any())).thenThrow(new CityNotFoundException(faker.number().randomDigit()));
 
@@ -65,7 +73,7 @@ public class CityServiceTest {
     }
 
     @Test
-    void createCity_whenCityNameAndRegionCombinationIsUnique_successfullyCreateCity() {
+    void createCity_whenCityNameAndRegionCombinationIsUnique_thenSuccessfullyCreateCity() {
 
         City city = City.builder()
                 .name(faker.name().name())
@@ -90,12 +98,12 @@ public class CityServiceTest {
     }
 
     @Test
-    void updateCity_whenUpdatedCityNameAndRegionCombinationIsUniqueAndIdIsValid_successfullyUpdateCity() {
+    void updateCity_whenUpdatedCityNameAndRegionCombinationIsUniqueAndIdIsValid_thenSuccessfullyUpdateCity() {
 
     }
 
     @Test
-    void updateCity_whenCityWithProvidedIdDoesNotExists_throwCityNotFoundException() {
+    void updateCity_whenCityWithProvidedIdDoesNotExists_thenThrowCityNotFoundException() {
 
         City city = City.builder().build();
         when(cityRepository.findById(any())).thenThrow(new CityNotFoundException(faker.number().randomDigit()));
@@ -119,7 +127,7 @@ public class CityServiceTest {
     }
 
     @Test
-    void deleteCity_whenCityWithProvidedIdExists_successfullyDeleteCity() {
+    void deleteCity_whenCityWithProvidedIdExists_thenSuccessfullyDeleteCity() {
 
         CityEntity cityEntity = CityEntity.builder()
                 .name(faker.name().name())
@@ -134,7 +142,7 @@ public class CityServiceTest {
     }
 
     @Test
-    void deleteCity_whenCityWithProvidedIdDoesNotExists_throwCityNotFoundException() {
+    void deleteCity_whenCityWithProvidedIdDoesNotExists_thenThrowCityNotFoundException() {
 
         when(cityRepository.findById(any())).thenThrow(new CityNotFoundException(faker.number().randomDigit()));
 

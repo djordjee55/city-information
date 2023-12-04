@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.cityinformation.general.constants.Constants.NO_INFORMATION_FOR_PROVIDED_CITY;
+import static com.cityinformation.general.constants.Constants.SERVICE_CURRENTLY_UNAVAILABLE;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class WeatherApiService {
 
     private final WeatherApiClient weatherApiClient;
-
-    private static final String SERVICE_CURRENTLY_UNAVAILABLE = "Service for gathering real-time information for city is currently unavailable.";
-    private static final String NO_INFORMATION_FOR_PROVIDED_CITY = "There is no information for provided city.";
 
     @Value("${integrations.weatherApi.apiKey}")
     private String apiKey;
