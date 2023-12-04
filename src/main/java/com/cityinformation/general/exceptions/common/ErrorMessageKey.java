@@ -1,4 +1,4 @@
-package com.cityinformation.general.exception.common;
+package com.cityinformation.general.exceptions.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

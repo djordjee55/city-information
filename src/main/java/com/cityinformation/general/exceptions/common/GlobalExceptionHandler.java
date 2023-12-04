@@ -1,8 +1,8 @@
-package com.cityinformation.general.exception.common;
+package com.cityinformation.general.exceptions.common;
 
-import com.cityinformation.general.exception.CityNotFoundException;
-import com.cityinformation.general.exception.dto.ApiErrorResponse;
-import com.cityinformation.general.exception.dto.ValidationErrorResponse;
+import com.cityinformation.general.exceptions.CityNotFoundException;
+import com.cityinformation.general.exceptions.dto.ApiErrorResponse;
+import com.cityinformation.general.exceptions.dto.ValidationErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

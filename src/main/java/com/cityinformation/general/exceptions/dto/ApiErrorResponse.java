@@ -1,4 +1,4 @@
-package com.cityinformation.general.exception.dto;
+package com.cityinformation.general.exceptions.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

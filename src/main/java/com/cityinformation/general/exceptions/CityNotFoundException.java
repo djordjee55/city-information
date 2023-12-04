@@ -1,4 +1,4 @@
-package com.cityinformation.general.exception;
+package com.cityinformation.general.exceptions;
 
 public class CityNotFoundException extends RuntimeException {
     public CityNotFoundException(Integer id) {

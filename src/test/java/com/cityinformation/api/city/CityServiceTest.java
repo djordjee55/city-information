@@ -2,8 +2,8 @@ package com.cityinformation.api.city;
 
 import com.cityinformation.api.city.model.City;
 import com.cityinformation.api.city.model.CityEntity;
-import com.cityinformation.general.exception.CityAlreadyExistsException;
-import com.cityinformation.general.exception.CityNotFoundException;
+import com.cityinformation.general.exceptions.CityAlreadyExistsException;
+import com.cityinformation.general.exceptions.CityNotFoundException;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

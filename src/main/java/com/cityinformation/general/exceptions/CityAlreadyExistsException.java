@@ -1,4 +1,4 @@
-package com.cityinformation.general.exception;
+package com.cityinformation.general.exceptions;
 
 public class CityAlreadyExistsException extends RuntimeException {
     public CityAlreadyExistsException(String name, String country) {
