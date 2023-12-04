@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum ErrorMessageKey {
 
     BAD_REQUEST("bad.request"),
-    MISSING_REQUIRED_PARAMETER("missing.required.parameter");
+    MISSING_REQUIRED_PARAMETER("missing.required.parameter"),
+    INVALID_CREDENTIALS("invalid.credentials");
 
     private final String key;
 }

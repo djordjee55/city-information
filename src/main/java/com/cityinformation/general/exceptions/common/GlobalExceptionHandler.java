@@ -1,6 +1,7 @@
 package com.cityinformation.general.exceptions.common;
 
 import com.cityinformation.general.exceptions.CityNotFoundException;
+import com.cityinformation.general.exceptions.InvalidCredentialException;
 import com.cityinformation.general.exceptions.dto.ApiErrorResponse;
 import com.cityinformation.general.exceptions.dto.ValidationErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +57,18 @@ public class GlobalExceptionHandler {
 
         return ApiErrorResponse.builder()
                 .messageKey(ErrorMessageKey.BAD_REQUEST.getKey())
+                .message(exception.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(InvalidCredentialException.class)
+    public ApiErrorResponse invalidCredentialException(InvalidCredentialException exception) {
+
+        log.error("InvalidCredentialException: {}", exception.getMessage());
+
+        return ApiErrorResponse.builder()
+                .messageKey(ErrorMessageKey.INVALID_CREDENTIALS.getKey())
                 .message(exception.getMessage())
                 .build();
     }
